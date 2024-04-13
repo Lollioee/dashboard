@@ -18,7 +18,7 @@ export default function InvoicesTable({
 }) {
   // const LocationTrackings = await fetchFilteredLocationTracking(query, currentPage);
   const getLocationTrackings = async () => {
-    const res = await fetch(`http://dashboard-ochre-eight.vercel.app/api/user/?query=${query}&page=${currentPage}`, {
+    const res = await fetch(`https://dashboard-ochre-eight.vercel.app/api/user/?query=${query}&page=${currentPage}`, {
       cache: 'no-store'
     });
     return res.json()
