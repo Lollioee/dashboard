@@ -1,10 +1,10 @@
 import { fetchFilteredUsers } from '@/app/lib/select';
 
-export async function GET(req: { nextUrl: { searchParams: any; }; }) {
-    const url = req.nextUrl.searchParams
-    const query = url.get('query')
-    const page = url.get('page')
-    let res = await fetchFilteredUsers(query, page)
+export async function GET(req: Request) {
+    const url = new URL(req.url);
+    const query = url.searchParams.get('query') || ''
+    const page = url.searchParams.get('page') || '1'
+    let res = await fetchFilteredUsers(query, Number(page))
 
     return Response.json(res)
 }
