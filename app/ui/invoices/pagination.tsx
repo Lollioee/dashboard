@@ -4,17 +4,59 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { generatePagination } from '@/app/lib/utils';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { fetchInvoicesPages, fetchLocationTrackingPages } from '@/app/lib/data';
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
+export default function Pagination({ query }: { query: string }) {
   // NOTE: comment in this code when you get to this point in the course
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+  const gettotalPages = async () => {
+    const res = await fetch(`http://localhost:3000/api/page-tracking/?query=${query}`, {
+      cache: 'no-store'
+    });
+    return res.json()
+  }
 
-  // const allPages = generatePagination(currentPage, totalPages);
+  const [totalPages, settotalPages] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resp = await gettotalPages();
+        const response = resp.pages;
+        settotalPages(response);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // 初始化数据
+    fetchData();
+
+    // 每5秒钟轮询访问API
+    const interval = setInterval(fetchData, 5000);
+
+    // 在组件卸载时清除定时器
+    return () => clearInterval(interval);
+  }, []);
+
+  const allPages = generatePagination(currentPage, totalPages);
+
+
+  const createPageURL = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
 
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
-      {/* <div className="inline-flex">
+      <div className="inline-flex">
         <PaginationArrow
           direction="left"
           href={createPageURL(currentPage - 1)}
@@ -47,7 +89,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           href={createPageURL(currentPage + 1)}
           isDisabled={currentPage >= totalPages}
         />
-      </div> */}
+      </div>
     </>
   );
 }

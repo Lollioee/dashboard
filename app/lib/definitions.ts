@@ -55,6 +55,21 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
+export type LocationTrackingTable = {
+  id: string;
+  name: string;
+  longtitude: string;
+  latitude: string;
+  status: 'on' | 'off';
+  emgy_status: 'on' | 'off';
+}
+
+export type UsersTable = {
+  id: string;
+  name: string;
+  status: 'on' | 'off';
+}
+
 export type CustomersTableType = {
   id: string;
   name: string;
