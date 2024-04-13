@@ -15,7 +15,7 @@ const buildMapInfoCardContent = (title: string, body: string): string => {
 
 function Map() {
     const getLocationTrackings = async () => {
-        const res = await fetch(`https://dashboard-ochre-eight.vercel.app/api/location-overview`, {
+        const res = await fetch(`/api/location-overview`, {
             cache: 'no-store'
         });
         return res.json()
