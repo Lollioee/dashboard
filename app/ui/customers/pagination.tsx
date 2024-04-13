@@ -14,7 +14,7 @@ export default function Pagination({ query }: { query: string }) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
   const gettotalPages = async () => {
-    const res = await fetch(`http://localhost:3000/api/page-user/?query=${query}`, {
+    const res = await fetch(`http://dashboard-ochre-eight.vercel.app/api/page-user/?query=${query}`, {
       cache: 'no-store'
     });
     return res.json()

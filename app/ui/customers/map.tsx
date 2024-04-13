@@ -18,7 +18,7 @@ function Map({
     id: string
 }) {
     const getLocationTrackings = async () => {
-        const res = await fetch(`http://localhost:3000/api/locationbyid/?id=${id}`, {
+        const res = await fetch(`http://dashboard-ochre-eight.vercel.app/api/locationbyid/?id=${id}`, {
             cache: 'no-store'
         });
         return res.json()
