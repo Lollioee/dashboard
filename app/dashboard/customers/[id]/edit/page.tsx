@@ -4,7 +4,14 @@ import { fetchFilteredUserById } from '@/app/lib/select';
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    const user = await fetchFilteredUserById(id);
+    let userId;
+    if (id.includes('%')) {
+        userId = decodeURIComponent(id);
+    } else {
+        userId = id;
+    }
+    // console.log(userId);
+    const user = await fetchFilteredUserById(userId);
 
     return (
         <main>
