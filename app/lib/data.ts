@@ -203,22 +203,23 @@ export async function fetchLocationTrackingPages(query: string) {
     FROM user_records
     JOIN location_records ON user_records.id = location_records.user_id
     WHERE
-    (
-      user_records.id ILIKE ${`%${query}%`} OR
-      user_records.name ILIKE ${`%${query}%`} OR
-      user_records.switch ILIKE ${`%${query}%`}
-    )
-    AND location_records.createAt = (
-      SELECT
-        MAX(createAt)
-      FROM location_records
-      WHERE
-        user_id = user_records.id
-    )
+      (
+        user_records.id ILIKE ${`%${query}%`} OR
+        user_records.name ILIKE ${`%${query}%`} OR
+        user_records.switch ILIKE ${`%${query}%`}
+      )
+      AND location_records.createAt = (
+        SELECT
+          MAX(createAt)
+        FROM location_records
+        WHERE
+          user_id = user_records.id
+      )
+      AND user_records.switch = 'on'
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    return {pages: totalPages};
+    return { pages: totalPages };
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
