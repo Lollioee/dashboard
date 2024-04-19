@@ -71,7 +71,7 @@ function Map({
                     const marker = new AdvancedMarkerElement({
                         map: map,
                         position: position,
-                        title: "Pet found here",
+                        title: "User found here",
                         content: pin.element
                     })
 

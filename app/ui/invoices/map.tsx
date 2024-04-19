@@ -58,7 +58,7 @@ function Map({
                 const marker = new Marker({
                     map: map,
                     position: position,
-                    title: "Pet found here",
+                    title: "User found here",
                     icon: {
                         url: '/marker_flag.png',
                         size: new google.maps.Size(32, 32)
